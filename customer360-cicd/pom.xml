@@ -38,7 +38,7 @@
 						<username>anhtranMS</username>
 						<password>TomorrOW112</password>
 						<environment>Sandbox</environment>
-						<applicationName>customer360-cicd</applicationName>
+						<applicationName>customer360cicd</applicationName>
 						<workerType>Micro</workerType>
 						<properties>
 							<key>value</key>
