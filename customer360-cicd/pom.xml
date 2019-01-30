@@ -23,7 +23,7 @@
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
-				<version>3.5.4</version>
+				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<sharedLibraries>
@@ -34,12 +34,14 @@
 					</sharedLibraries>
 					<cloudHubDeployment>
 						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>4.1.1</muleVersion>
-						<username>anhtranMS</username>
-						<password>TomorrOW112</password>
-						<environment>Sandbox</environment>
-						<applicationName>customer360cicd</applicationName>
-						<workerType>Micro</workerType>
+						<muleVersion>${mule.version}</muleVersion>
+						<!-- Deploy User Parameter -->
+						<username>${anypoint.username}</username>
+						<password>${anypoint.password}</password>
+						<!-- Environment Parameter -->
+						<environment>${cloudhub.environment}</environment>
+						<applicationName>${cloudhub.app}</applicationName>
+						<workerType>${cloudhub.worker}</workerType>
 						<properties>
 							<key>value</key>
 						</properties>
@@ -105,10 +107,10 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
-		  <pluginRepository>
-        <id>mule-public</id>
-        <url>https://repository.mulesoft.org/nexus/content/repositories/releases</url>
-    </pluginRepository>
+		<pluginRepository>
+			<id>mule-public</id>
+			<url>https://repository.mulesoft.org/nexus/content/repositories/releases</url>
+		</pluginRepository>
 	</pluginRepositories>
 
 </project>
