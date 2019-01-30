@@ -37,9 +37,8 @@
 						<muleVersion>4.1.1</muleVersion>
 						<username>anhtranMS</username>
 						<password>TomorrOW112</password>
-						<redeploy>true</redeploy>
 						<environment>Sandbox</environment>
-						<applicationName>Customer360</applicationName>
+						<applicationName>customer360-cicd</applicationName>
 						<workerType>Micro</workerType>
 						<properties>
 							<key>value</key>
