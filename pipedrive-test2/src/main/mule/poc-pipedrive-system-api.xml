@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <http:listener-config name="poc-pipedrive-system-api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+    <apikit:config name="poc-pipedrive-system-api-config" raml="poc-pipedrive-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="17a47eff-5335-42e7-b05d-a3fd4e869b56" basePath="/v1" sendCorrelationId="NEVER">
+        <http:request-connection protocol="HTTPS" host="api.pipedrive.com" />
+    </http:request-config>
+    <flow name="poc-pipedrive-system-api-main">
+        <http:listener config-ref="poc-pipedrive-system-api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="poc-pipedrive-system-api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Bad request"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Method not allowed"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not acceptable"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Unsupported media type"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not Implemented"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="poc-pipedrive-system-api-console">
+        <http:listener config-ref="poc-pipedrive-system-api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="poc-pipedrive-system-api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="post:\opportunities:application\json:poc-pipedrive-system-api-config">
+        <ee:transform doc:name="originalPayload" doc:id="ce0af7ba-81b5-4916-976c-4055966fe22f">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="originalPayload"><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform doc:name="MapAgcotoDeals" doc:id="d1044c6a-eed7-4f46-91de-14c2a7d53bbc">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	title: payload.CompanyName default "",
+	status: "new",
+	visible_to: 3,
+	"76611ed88fa9fdaba56882ff78306fda5fa1d2f2": payload.OpportunityID
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <http:request method="POST" doc:name="add a deal to Pipedrive" doc:id="2cda10a9-5a04-4d31-9342-633338fb16c0" config-ref="HTTP_Request_configuration" path="/deals">
+            <http:uri-params><![CDATA[#[output application/java
+---
+{
+	"id" : "Value"
+}]]]></http:uri-params>
+            <http:query-params><![CDATA[#[output application/java
+---
+{
+	"api_token" : "39803c0919118904231096873d0569ffa67e9135"
+}]]]></http:query-params>
+        </http:request>
+        <set-variable value="#[payload.data.id]" doc:name="Save created Pipedrive ID" doc:id="4177318f-df3b-424e-bb13-f4d133f65209" variableName="dealid" />
+        <scatter-gather doc:name="Scatter-Gather" doc:id="64d4409a-0b75-4ff4-bf96-f7d2268f9a6c">
+            <route>
+                <ee:transform doc:name="Transform Message" doc:id="b182714e-c67b-4d09-ad6a-b1fe6bae0d7a">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+vars.originalPayload.ProductItems]]></ee:set-payload>
+                    </ee:message>
+                </ee:transform>
+                <foreach doc:name="For Each" doc:id="6e40f3ae-94fb-4943-861f-2e86ce0e6dc1">
+                    <ee:transform doc:name="Map_Pipedrive_Prods" doc:id="87b2692c-2490-45f7-9b5d-2e50c59fc1b9">
+                        <ee:message>
+                            <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	product_id: "1",
+	item_price: payload.Amount,
+	quantity: payload.Quantity,
+	comments: (payload.ProductInterest_series default "") ++ payload.ProductInterest_brand
+}]]></ee:set-payload>
+                        </ee:message>
+                    </ee:transform>
+                    <http:request method="POST" doc:name="Add product(s) into Deal" doc:id="83c33956-2407-4681-8345-606160086c16" config-ref="HTTP_Request_configuration" path="/deals/{id}/products">
+                        <http:uri-params><![CDATA[#[output application/java
+---
+{
+	id : vars.dealid
+}]]]></http:uri-params>
+                        <http:query-params><![CDATA[#[output application/java
+---
+{
+	"api_token" : "39803c0919118904231096873d0569ffa67e9135"
+}]]]></http:query-params>
+                    </http:request>
+                </foreach>
+            </route>
+            <route>
+                <ee:transform doc:name="Extract contact" doc:id="44066e83-0199-45ed-abfb-13c31d64194d">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+vars.originalPayload.Contacts]]></ee:set-payload>
+                    </ee:message>
+                </ee:transform>
+                <foreach doc:name="For Each" doc:id="09b461aa-ee8f-44e5-b810-97d3c45d7abd">
+                    <ee:transform doc:name="maptopersons" doc:id="4bf7ce36-ec4d-4b4f-9c1f-d529c7c8cfcd">
+                        <ee:message>
+                            <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	name: payload.Name,
+	email: payload.Email,
+	phone: payload.Phone
+}]]></ee:set-payload>
+                        </ee:message>
+                    </ee:transform>
+                    <http:request method="POST" doc:name="Create Person" doc:id="6da8e04f-13e8-4b25-8b86-4d345f0fa86d" config-ref="HTTP_Request_configuration" path="/persons">
+                        <http:query-params><![CDATA[#[output application/java
+---
+{
+	"api_token" : "39803c0919118904231096873d0569ffa67e9135"
+}]]]></http:query-params>
+                    </http:request>
+                    <ee:transform doc:name="Transform Message" doc:id="967e8fb2-5ff0-4b60-831e-0ca9e2c247bf">
+                        <ee:message>
+                            <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+"person_id": payload.data.id
+}]]></ee:set-payload>
+                        </ee:message>
+                    </ee:transform>
+                    <http:request method="POST" doc:name="add person to deal" doc:id="7479eda5-7fe2-4b6a-8504-1a1acac1d1bf" config-ref="HTTP_Request_configuration" path="/deals/{id}/participants">
+                        <http:uri-params><![CDATA[#[output application/java
+---
+{
+	"id" : vars.dealid
+}]]]></http:uri-params>
+                        <http:query-params><![CDATA[#[output application/java
+---
+{
+	"api_token" : "39803c0919118904231096873d0569ffa67e9135"
+}]]]></http:query-params>
+                    </http:request>
+                </foreach>
+            </route>
+        </scatter-gather>
+        <ee:transform doc:name="Transform Message" doc:id="faf878ce-dc1c-4e63-8c10-59b56b674865">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+ message: "Opportunities have been Added"]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\webhook:poc-pipedrive-system-api-config">
+        <ee:transform doc:name="Transform Message" doc:id="32d84ac5-4a39-4a9b-8aad-5363f1ce6c89">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+
+if(payload.current."76611ed88fa9fdaba56882ff78306fda5fa1d2f2" != null and payload.current."76611ed88fa9fdaba56882ff78306fda5fa1d2f2" != "" )
+   opp_id: payload.current.id
+else
+  opp_id:"ignore"]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<choice doc:name="Copy_of_when OppID is not null " doc:id="69ba6bd4-59ee-41a8-b21d-e3e2e733b8ba" tracking:enable-default-events="true">
+            <when expression='#[payload.opp_id =="ignore"]'>
+                <logger level="INFO" doc:name="Copy_of_Logger" doc:id="5dc7f65b-523d-46b6-9c1a-305592069c3b" />
+            </when>
+            <otherwise>
+                <scatter-gather doc:name="Copy_of_Scatter-Gather" doc:id="467da4f6-16a9-4fa5-9156-5d40eed6b591">
+                    <route>
+                        <http:request method="GET" doc:name="Get Deal Details  from deal" doc:id="364a43d4-8426-49ca-87f1-1bbd2fe5686b" config-ref="HTTP_Request_configuration" path="/deals/{id}">
+                            <http:uri-params><![CDATA[#[output application/java
+---
+{
+	id : payload.opp_id
+}]]]></http:uri-params>
+                            <http:query-params><![CDATA[#[output application/java
+---
+{
+	"api_token" : "39803c0919118904231096873d0569ffa67e9135"
+}]]]></http:query-params>
+                        </http:request>
+                        <ee:transform doc:name="Transform Message" doc:id="dc69e78f-e168-4550-a7c8-eeac1029042f">
+                            <ee:message>
+                                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	OpportunityID: payload.data."76611ed88fa9fdaba56882ff78306fda5fa1d2f2",
+	productItems: [{
+		Quantity: payload.data.id
+	}],
+	Opportunity_Status: payload.data.status,
+	Dealer_Feedback_Comments: payload.data.next_activity_note,
+	Estimated_Purchase_Date: payload.data.expected_close_date
+}]]></ee:set-payload>
+                            </ee:message>
+                        </ee:transform>
+                    </route>
+                    <route>
+                        <http:request method="GET" doc:name="Get contact(s) from deal" doc:id="69bf1429-2c4e-40ff-a340-b37690d84493" config-ref="HTTP_Request_configuration" path="/deals/{id}/participants">
+                            <http:uri-params><![CDATA[#[output application/java
+---
+{
+	id : payload.opp_id
+}]]]></http:uri-params>
+                            <http:query-params><![CDATA[#[output application/java
+---
+{
+	"api_token" : "39803c0919118904231096873d0569ffa67e9135"
+}]]]></http:query-params>
+                        </http:request>
+                        <ee:transform doc:name="Transform Message" doc:id="5d41d146-db9b-4dfa-b5ed-b10f916f13a3">
+                            <ee:message>
+                                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	OppContacts: payload.data map ( datum , indexOfDatum ) -> {
+		Name: datum.person_id.name,
+		Email: datum.person_id.email.value,
+		Phone: datum.person_id.phone.value
+	}
+}]]></ee:set-payload>
+                            </ee:message>
+                        </ee:transform>
+                    </route>
+                    <route>
+                        <http:request method="GET" doc:name="Get product(s) from deal" doc:id="75b404d9-d317-44bf-ab02-ca7b2eb7c156" config-ref="HTTP_Request_configuration" path="/deals/{id}/products">
+                            <http:uri-params><![CDATA[#[output application/java
+---
+{
+	id : payload.opp_id
+}]]]></http:uri-params>
+                            <http:query-params><![CDATA[#[output application/java
+---
+{
+	"api_token" : "39803c0919118904231096873d0569ffa67e9135"
+}]]]></http:query-params>
+                        </http:request>
+                        <ee:transform doc:name="Transform Message" doc:id="f22e6afb-5677-44b1-bd20-8a348f7c2d51">
+                            <ee:message>
+                                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	productItems: payload.data map ( datum , indexOfDatum ) -> {
+		Quantity: datum.quantity,
+		Amount: datum.item_price
+	}
+}]]></ee:set-payload>
+                            </ee:message>
+                        </ee:transform>
+                    </route>
+                </scatter-gather>
+            </otherwise>
+        </choice>
+		<ee:transform doc:name="Transform Message" doc:id="5695666c-9b51-478b-9fd4-086db86f2f07" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{(
+if(payload."0".payload.productItems != null)
+   productItems:payload."0".payload.productItems
+else
+if(payload."0".payload.OppContacts != null)
+   OppContacts:payload."0".payload.OppContacts map ((item, index) ->
+   {
+       "Name":item.Name,
+       "Email":item.Email[0]
+   }
+   )
+else
+ Opportunity:payload."0".payload
+),
+
+(if(payload."1".payload.productItems != null)
+   productItems:payload."1".payload.productItems
+else
+if(payload."1".payload.OppContacts != null)
+   OppContacts:payload."1".payload.OppContacts map ((item, index) ->
+   {
+       "Name":item.Name,
+       "Email":item.Email[0],
+       "Phone":item.Phone[0]
+   }
+   )
+
+
+else
+ Opportunity:payload."1".payload
+),
+(if(payload."2".payload.productItems != null)
+   productItems:payload."2".payload.productItems
+else
+if(payload."2".payload.OppContacts != null)
+   OppContacts:payload."2".payload.OppContacts map ((item, index) ->
+   {
+       "Name":item.Name,
+       "Email":item.Email[0],
+       "Phone":item.Phone[0]
+   }
+   )
+else
+ Opportunity:payload."2".payload
+)
+
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+</mule>

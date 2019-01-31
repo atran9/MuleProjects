@@ -1,0 +1,33 @@
+{
+  "OpportunityID": "agcoexternalid123",
+  "productItems": [
+    {
+      "ProductLineItem": "",
+      "ProductInterest_brand": "Challenger",
+      "ProductInterest_series": "MCHMT700",
+      "Quantity": 2,
+      "Amount": 30000
+    }
+  ],
+  "Opportunity_Status": "Closed/Won",
+  "Dealer_Feedback_Comments": "sold!",
+  "Sales_Professional_Name": "Anh Tran",
+  "Sales_Professional_Name_Email_Address": "",
+  "Sales_Professional_Phone_Number": "",
+  "Estimated_Purchase_Date": "",
+  "Payment_Type": "Cash",
+  "Reassign_Lead": "",
+  "Reassignment_Reason": "",
+  "Demo_schedule_Date": "2018-04-23",
+  "Customer_Visit_Schedule_Date": "",
+  "CreationDate": "2018-04-23T18:25:43.511Z",
+  "LastUpdatedDate": "2018-04-23T18:25:43.511Z",
+  "OppContacts": [
+    {
+      "Name": "John Smith",
+      "Email": "john.smith@example.com",
+      "Phone": "555-123-4567",
+      "PreferedMethodofContact": "Email"
+    }
+  ]
+}

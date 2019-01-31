@@ -1,0 +1,548 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="deals" format="json">
+      <types:shape format="weave" example="examples/pipedrivedeal-example.json"><![CDATA[%dw 2.0
+type deals = {|
+  title: String, 
+  value: String, 
+  stage_id: String, 
+  probability: String, 
+  status: String, 
+  visible_to: String
+|} {"MetadataFormat": "json",
+"example": "{\"title\":\"AGCO Deal 3Postman\",\"value\":\"100\",\"stage_id\":\"1\",\"probability\":\"45\",\"status\":\"open\",\"visible_to\":\"3\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="addProd" format="json">
+      <types:shape format="weave" example="examples/pipedriveaddprod-example.json"><![CDATA[%dw 2.0
+type addProd = {|
+  product_id: String, 
+  item_price: String, 
+  quantity: String, 
+  discount_percentage: String, 
+  comments: String
+|} {"MetadataFormat": "json",
+"example": "{\"product_id\":\"1\",\"item_price\":\"200\",\"quantity\":\"1\",\"discount_percentage\":\"10%\",\"comments\":\"Challenger Truck\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="webhookpayload" format="json">
+      <types:shape format="weave" example="examples/webhookpayload-example.json"><![CDATA[%dw 2.0
+type webhookpayload = {|
+  v: Number {"typeId": "int"}, 
+  matches_filters: {| current: Array<Any> |}, 
+  meta: {|
+    v: Number {"typeId": "int"}, 
+    action: String, 
+    object: String, 
+    id: Number {"typeId": "int"}, 
+    company_id: Number {"typeId": "int"}, 
+    user_id: Number {"typeId": "int"}, 
+    host: String, 
+    timestamp: Number {"typeId": "int"}, 
+    timestamp_micro: Number {"typeId": "double"}, 
+    permitted_user_ids: Array<Number {"typeId": "int"}>, 
+    trans_pending: Boolean, 
+    is_bulk_update: Boolean, 
+    pipedrive_service_name: Boolean, 
+    matches_filters: {| current: Array<Any> |}, 
+    webhook_id: String
+  |}, 
+  current: {|
+    id: Number {"typeId": "int"}, 
+    creator_user_id: Number {"typeId": "int"}, 
+    user_id: Number {"typeId": "int"}, 
+    person_id: Null, 
+    org_id: Null, 
+    stage_id: Number {"typeId": "int"}, 
+    title: String, 
+    value: Number {"typeId": "int"}, 
+    currency: String, 
+    add_time: String, 
+    update_time: String, 
+    stage_change_time: Null, 
+    active: Boolean, 
+    deleted: Boolean, 
+    status: String, 
+    probability: Null, 
+    next_activity_date: Null, 
+    next_activity_time: Null, 
+    next_activity_id: Null, 
+    last_activity_id: Null, 
+    last_activity_date: Null, 
+    lost_reason: Null, 
+    visible_to: String, 
+    close_time: Null, 
+    pipeline_id: Number {"typeId": "int"}, 
+    won_time: Null, 
+    first_won_time: Null, 
+    lost_time: Null, 
+    products_count: Number {"typeId": "int"}, 
+    files_count: Number {"typeId": "int"}, 
+    notes_count: Number {"typeId": "int"}, 
+    followers_count: Number {"typeId": "int"}, 
+    email_messages_count: Number {"typeId": "int"}, 
+    activities_count: Number {"typeId": "int"}, 
+    done_activities_count: Number {"typeId": "int"}, 
+    undone_activities_count: Number {"typeId": "int"}, 
+    reference_activities_count: Number {"typeId": "int"}, 
+    participants_count: Number {"typeId": "int"}, 
+    expected_close_date: Null, 
+    last_incoming_mail_time: Null, 
+    last_outgoing_mail_time: Null, 
+    "76611ed88fa9fdaba56882ff78306fda5fa1d2f2": String, 
+    stage_order_nr: Number {"typeId": "int"}, 
+    person_name: Null, 
+    org_name: Null, 
+    next_activity_subject: Null, 
+    next_activity_type: Null, 
+    next_activity_duration: Null, 
+    next_activity_note: Null, 
+    formatted_value: String, 
+    weighted_value: Number {"typeId": "int"}, 
+    formatted_weighted_value: String, 
+    weighted_value_currency: String, 
+    rotten_time: Null, 
+    owner_name: String, 
+    cc_email: String, 
+    org_hidden: Boolean, 
+    person_hidden: Boolean
+  |}, 
+  previous: Null, 
+  event: String, 
+  retry: Number {"typeId": "int"}
+|} {"MetadataFormat": "json",
+"example": "{\"v\":1,\"matches_filters\":{\"current\":[]},\"meta\":{\"v\":1,\"action\":\"added\",\"object\":\"deal\",\"id\":43,\"company_id\":4803730,\"user_id\":7530495,\"host\":\"app.pipedrive.com\",\"timestamp\":1548798948,\"timestamp_micro\":1548798948696000,\"permitted_user_ids\":[7530495,7570768,7907915],\"trans_pending\":false,\"is_bulk_update\":false,\"pipedrive_service_name\":false,\"matches_filters\":{\"current\":[]},\"webhook_id\":\"45388\"},\"current\":{\"id\":43,\"creator_user_id\":7530495,\"user_id\":7530495,\"person_id\":null,\"org_id\":null,\"stage_id\":1,\"title\":\"AnhDevTestpersonsproducts3\",\"value\":0,\"currency\":\"USD\",\"add_time\":\"2019-01-29 21:55:48\",\"update_time\":\"2019-01-29 21:55:48\",\"stage_change_time\":null,\"active\":true,\"deleted\":false,\"status\":\"open\",\"probability\":null,\"next_activity_date\":null,\"next_activity_time\":null,\"next_activity_id\":null,\"last_activity_id\":null,\"last_activity_date\":null,\"lost_reason\":null,\"visible_to\":\"3\",\"close_time\":null,\"pipeline_id\":1,\"won_time\":null,\"first_won_time\":null,\"lost_time\":null,\"products_count\":0,\"files_count\":0,\"notes_count\":0,\"followers_count\":0,\"email_messages_count\":0,\"activities_count\":0,\"done_activities_count\":0,\"undone_activities_count\":0,\"reference_activities_count\":0,\"participants_count\":0,\"expected_close_date\":null,\"last_incoming_mail_time\":null,\"last_outgoing_mail_time\":null,\"76611ed88fa9fdaba56882ff78306fda5fa1d2f2\":\"AGCO1237\",\"stage_order_nr\":1,\"person_name\":null,\"org_name\":null,\"next_activity_subject\":null,\"next_activity_type\":null,\"next_activity_duration\":null,\"next_activity_note\":null,\"formatted_value\":\"$0\",\"weighted_value\":0,\"formatted_weighted_value\":\"$0\",\"weighted_value_currency\":\"USD\",\"rotten_time\":null,\"owner_name\":\"anhtran\",\"cc_email\":\"agco-mulesoft-sandbox-12a42e+deal43@pipedrivemail.com\",\"org_hidden\":false,\"person_hidden\":false},\"previous\":null,\"event\":\"added.deal\",\"retry\":0}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="DealertoAgco" format="json">
+      <types:shape format="weave" example="examples/delaertoagco-example.json"><![CDATA[%dw 2.0
+type DealertoAgco = {|
+  OpportunityID: String, 
+  productItems: Array<{|
+    ProductLineItem: String, 
+    ProductInterest_brand: String, 
+    ProductInterest_series: String, 
+    Quantity: Number {"typeId": "int"}, 
+    Amount: Number {"typeId": "int"}
+  |}>, 
+  Opportunity_Status: String, 
+  Dealer_Feedback_Comments: String, 
+  Sales_Professional_Name: String, 
+  Sales_Professional_Name_Email_Address: String, 
+  Sales_Professional_Phone_Number: String, 
+  Estimated_Purchase_Date: String, 
+  Payment_Type: String, 
+  Reassign_Lead: String, 
+  Reassignment_Reason: String, 
+  Demo_schedule_Date: String, 
+  Customer_Visit_Schedule_Date: String, 
+  CreationDate: String, 
+  LastUpdatedDate: String, 
+  OppContacts: Array<{|
+    Name: String, 
+    Email: String, 
+    Phone: String, 
+    PreferedMethodofContact: String
+  |}>
+|} {"MetadataFormat": "json",
+"example": "{\"OpportunityID\":\"agcoexternalid123\",\"productItems\":[{\"ProductLineItem\":\"\",\"ProductInterest_brand\":\"Challenger\",\"ProductInterest_series\":\"MCHMT700\",\"Quantity\":2,\"Amount\":30000}],\"Opportunity_Status\":\"Closed\/Won\",\"Dealer_Feedback_Comments\":\"sold!\",\"Sales_Professional_Name\":\"Anh Tran\",\"Sales_Professional_Name_Email_Address\":\"\",\"Sales_Professional_Phone_Number\":\"\",\"Estimated_Purchase_Date\":\"\",\"Payment_Type\":\"Cash\",\"Reassign_Lead\":\"\",\"Reassignment_Reason\":\"\",\"Demo_schedule_Date\":\"2018-04-23\",\"Customer_Visit_Schedule_Date\":\"\",\"CreationDate\":\"2018-04-23T18:25:43.511Z\",\"LastUpdatedDate\":\"2018-04-23T18:25:43.511Z\",\"OppContacts\":[{\"Name\":\"John Smith\",\"Email\":\"john.smith@example.com\",\"Phone\":\"555-123-4567\",\"PreferedMethodofContact\":\"Email\"}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="getDeals" format="json">
+      <types:shape format="weave" example="examples/pipedrivegetdeals-example.json"><![CDATA[%dw 2.0
+type getDeals = {|
+  success: Boolean, 
+  data: {|
+    id: Number {"typeId": "int"}, 
+    creator_user_id: {|
+      id: Number {"typeId": "int"}, 
+      name: String, 
+      email: String, 
+      has_pic: Boolean, 
+      pic_hash: Null, 
+      active_flag: Boolean, 
+      value: Number {"typeId": "int"}
+    |}, 
+    user_id: {|
+      id: Number {"typeId": "int"}, 
+      name: String, 
+      email: String, 
+      has_pic: Boolean, 
+      pic_hash: Null, 
+      active_flag: Boolean, 
+      value: Number {"typeId": "int"}
+    |}, 
+    person_id: Null, 
+    org_id: Null, 
+    stage_id: Number {"typeId": "int"}, 
+    title: String, 
+    value: Number {"typeId": "int"}, 
+    currency: String, 
+    add_time: String, 
+    update_time: String, 
+    stage_change_time: Null, 
+    active: Boolean, 
+    deleted: Boolean, 
+    status: String, 
+    probability: Null, 
+    next_activity_date: Null, 
+    next_activity_time: Null, 
+    next_activity_id: Null, 
+    last_activity_id: Null, 
+    last_activity_date: Null, 
+    lost_reason: Null, 
+    visible_to: String, 
+    close_time: Null, 
+    pipeline_id: Number {"typeId": "int"}, 
+    won_time: Null, 
+    first_won_time: Null, 
+    lost_time: Null, 
+    products_count: Number {"typeId": "int"}, 
+    files_count: Number {"typeId": "int"}, 
+    notes_count: Number {"typeId": "int"}, 
+    followers_count: Number {"typeId": "int"}, 
+    email_messages_count: Number {"typeId": "int"}, 
+    activities_count: Number {"typeId": "int"}, 
+    done_activities_count: Number {"typeId": "int"}, 
+    undone_activities_count: Number {"typeId": "int"}, 
+    reference_activities_count: Number {"typeId": "int"}, 
+    participants_count: Number {"typeId": "int"}, 
+    expected_close_date: Null, 
+    last_incoming_mail_time: Null, 
+    last_outgoing_mail_time: Null, 
+    "76611ed88fa9fdaba56882ff78306fda5fa1d2f2": String, 
+    stage_order_nr: Number {"typeId": "int"}, 
+    person_name: Null, 
+    org_name: Null, 
+    next_activity_subject: Null, 
+    next_activity_type: Null, 
+    next_activity_duration: Null, 
+    next_activity_note: Null, 
+    formatted_value: String, 
+    weighted_value: Number {"typeId": "int"}, 
+    formatted_weighted_value: String, 
+    weighted_value_currency: String, 
+    rotten_time: Null, 
+    owner_name: String, 
+    cc_email: String, 
+    org_hidden: Boolean, 
+    person_hidden: Boolean, 
+    average_time_to_won: {|
+      y: Number {"typeId": "int"}, 
+      m: Number {"typeId": "int"}, 
+      d: Number {"typeId": "int"}, 
+      h: Number {"typeId": "int"}, 
+      i: Number {"typeId": "int"}, 
+      s: Number {"typeId": "int"}, 
+      total_seconds: Number {"typeId": "int"}
+    |}, 
+    average_stage_progress: Number {"typeId": "int"}, 
+    age: {|
+      y: Number {"typeId": "int"}, 
+      m: Number {"typeId": "int"}, 
+      d: Number {"typeId": "int"}, 
+      h: Number {"typeId": "int"}, 
+      i: Number {"typeId": "int"}, 
+      s: Number {"typeId": "int"}, 
+      total_seconds: Number {"typeId": "int"}
+    |}, 
+    stay_in_pipeline_stages: {|
+      times_in_stages: {| "1": Number {"typeId": "int"} |}, 
+      order_of_stages: Array<Number {"typeId": "int"}>
+    |}, 
+    last_activity: Null, 
+    next_activity: Null
+  |}, 
+  additional_data: {| dropbox_email: String |}, 
+  related_objects: {|
+    user: {|
+      "7530495": {|
+        id: Number {"typeId": "int"}, 
+        name: String, 
+        email: String, 
+        has_pic: Boolean, 
+        pic_hash: Null, 
+        active_flag: Boolean
+      |}
+    |}
+  |}
+|} {"MetadataFormat": "json",
+"example": "{\"success\":true,\"data\":{\"id\":43,\"creator_user_id\":{\"id\":7530495,\"name\":\"anhtran\",\"email\":\"anh.tran@mulesoft.com\",\"has_pic\":false,\"pic_hash\":null,\"active_flag\":true,\"value\":7530495},\"user_id\":{\"id\":7530495,\"name\":\"anhtran\",\"email\":\"anh.tran@mulesoft.com\",\"has_pic\":false,\"pic_hash\":null,\"active_flag\":true,\"value\":7530495},\"person_id\":null,\"org_id\":null,\"stage_id\":1,\"title\":\"AnhDevTestpersonsproducts3\",\"value\":8600,\"currency\":\"USD\",\"add_time\":\"2019-01-29 21:55:48\",\"update_time\":\"2019-01-29 21:55:49\",\"stage_change_time\":null,\"active\":true,\"deleted\":false,\"status\":\"open\",\"probability\":null,\"next_activity_date\":null,\"next_activity_time\":null,\"next_activity_id\":null,\"last_activity_id\":null,\"last_activity_date\":null,\"lost_reason\":null,\"visible_to\":\"3\",\"close_time\":null,\"pipeline_id\":1,\"won_time\":null,\"first_won_time\":null,\"lost_time\":null,\"products_count\":102,\"files_count\":0,\"notes_count\":0,\"followers_count\":1,\"email_messages_count\":0,\"activities_count\":0,\"done_activities_count\":0,\"undone_activities_count\":0,\"reference_activities_count\":0,\"participants_count\":2,\"expected_close_date\":null,\"last_incoming_mail_time\":null,\"last_outgoing_mail_time\":null,\"76611ed88fa9fdaba56882ff78306fda5fa1d2f2\":\"AGCO1237\",\"stage_order_nr\":1,\"person_name\":null,\"org_name\":null,\"next_activity_subject\":null,\"next_activity_type\":null,\"next_activity_duration\":null,\"next_activity_note\":null,\"formatted_value\":\"$8,600\",\"weighted_value\":8600,\"formatted_weighted_value\":\"$8,600\",\"weighted_value_currency\":\"USD\",\"rotten_time\":null,\"owner_name\":\"anhtran\",\"cc_email\":\"agco-mulesoft-sandbox-12a42e+deal43@pipedrivemail.com\",\"org_hidden\":false,\"person_hidden\":false,\"average_time_to_won\":{\"y\":0,\"m\":0,\"d\":0,\"h\":0,\"i\":0,\"s\":0,\"total_seconds\":0},\"average_stage_progress\":0,\"age\":{\"y\":0,\"m\":0,\"d\":0,\"h\":1,\"i\":25,\"s\":34,\"total_seconds\":5134},\"stay_in_pipeline_stages\":{\"times_in_stages\":{\"1\":5134},\"order_of_stages\":[1]},\"last_activity\":null,\"next_activity\":null},\"additional_data\":{\"dropbox_email\":\"agco-mulesoft-sandbox-12a42e+deal43@pipedrivemail.com\"},\"related_objects\":{\"user\":{\"7530495\":{\"id\":7530495,\"name\":\"anhtran\",\"email\":\"anh.tran@mulesoft.com\",\"has_pic\":false,\"pic_hash\":null,\"active_flag\":true}}}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="personpayload" format="json">
+      <types:shape format="weave" example="examples/getpersontoagco-example-1.json"><![CDATA[%dw 2.0
+type personpayload = {|
+  success: Boolean, 
+  data: Array<{|
+    id: Number {"typeId": "int"}, 
+    person_id: {|
+      name: String, 
+      email: Array<{|
+        label: String, 
+        value: String, 
+        primary: Boolean
+      |}>, 
+      phone: Array<{|
+        label: String, 
+        value: String, 
+        primary: Boolean
+      |}>, 
+      value: Number {"typeId": "int"}
+    |}, 
+    add_time: String, 
+    active_flag: Boolean, 
+    related_item_data: {|
+      deal_id: Number {"typeId": "int"}, 
+      title: String
+    |}, 
+    person: {|
+      id: Number {"typeId": "int"}, 
+      company_id: Number {"typeId": "int"}, 
+      owner_id: {|
+        id: Number {"typeId": "int"}, 
+        name: String, 
+        email: String, 
+        has_pic: Boolean, 
+        pic_hash: Null, 
+        active_flag: Boolean, 
+        value: Number {"typeId": "int"}
+      |}, 
+      org_id: Null, 
+      name: String, 
+      first_name: String, 
+      last_name: String, 
+      open_deals_count: Number {"typeId": "int"}, 
+      related_open_deals_count: Number {"typeId": "int"}, 
+      closed_deals_count: Number {"typeId": "int"}, 
+      related_closed_deals_count: Number {"typeId": "int"}, 
+      participant_open_deals_count: Number {"typeId": "int"}, 
+      participant_closed_deals_count: Number {"typeId": "int"}, 
+      email_messages_count: Number {"typeId": "int"}, 
+      activities_count: Number {"typeId": "int"}, 
+      done_activities_count: Number {"typeId": "int"}, 
+      undone_activities_count: Number {"typeId": "int"}, 
+      reference_activities_count: Number {"typeId": "int"}, 
+      files_count: Number {"typeId": "int"}, 
+      notes_count: Number {"typeId": "int"}, 
+      followers_count: Number {"typeId": "int"}, 
+      won_deals_count: Number {"typeId": "int"}, 
+      related_won_deals_count: Number {"typeId": "int"}, 
+      lost_deals_count: Number {"typeId": "int"}, 
+      related_lost_deals_count: Number {"typeId": "int"}, 
+      active_flag: Boolean, 
+      phone: Array<{|
+        label: String, 
+        value: String, 
+        primary: Boolean
+      |}>, 
+      email: Array<{|
+        label: String, 
+        value: String, 
+        primary: Boolean
+      |}>, 
+      first_char: String, 
+      update_time: String, 
+      add_time: String, 
+      visible_to: String, 
+      google_contact_id: Null, 
+      picture_id: Null, 
+      sync_needed: Boolean, 
+      next_activity_date: Null, 
+      next_activity_time: Null, 
+      next_activity_id: Null, 
+      last_activity_id: Null, 
+      last_activity_date: Null, 
+      last_incoming_mail_time: Null, 
+      last_outgoing_mail_time: Null, 
+      label: Null, 
+      org_name: Null, 
+      owner_name: String, 
+      cc_email: String
+    |}, 
+    added_by_user_id: {|
+      id: Number {"typeId": "int"}, 
+      name: String, 
+      email: String, 
+      has_pic: Boolean, 
+      pic_hash: Null, 
+      active_flag: Boolean, 
+      value: Number {"typeId": "int"}
+    |}, 
+    related_item_type: String, 
+    related_item_id: Number {"typeId": "int"}
+  |}>, 
+  additional_data: {|
+    pagination: {|
+      start: Number {"typeId": "int"}, 
+      limit: Number {"typeId": "int"}, 
+      more_items_in_collection: Boolean
+    |}
+  |}, 
+  related_objects: {|
+    user: {|
+      "7530495": {|
+        id: Number {"typeId": "int"}, 
+        name: String, 
+        email: String, 
+        has_pic: Boolean, 
+        pic_hash: Null, 
+        active_flag: Boolean
+      |}
+    |}, 
+    person: {|
+      "22": {|
+        id: Number {"typeId": "int"}, 
+        name: String, 
+        email: Array<{|
+          label: String, 
+          value: String, 
+          primary: Boolean
+        |}>, 
+        phone: Array<{|
+          label: String, 
+          value: String, 
+          primary: Boolean
+        |}>
+      |}, 
+      "23": {|
+        id: Number {"typeId": "int"}, 
+        name: String, 
+        email: Array<{|
+          label: String, 
+          value: String, 
+          primary: Boolean
+        |}>, 
+        phone: Array<{|
+          label: String, 
+          value: String, 
+          primary: Boolean
+        |}>
+      |}
+    |}
+  |}
+|} {"MetadataFormat": "json",
+"example": "{\"success\":true,\"data\":[{\"id\":21,\"person_id\":{\"name\":\"James GHI\",\"email\":[{\"label\":\"\",\"value\":\"tw@ms.com\",\"primary\":true}],\"phone\":[{\"label\":\"\",\"value\":\"3453453458\",\"primary\":true}],\"value\":22},\"add_time\":\"2019-01-29 21:55:49\",\"active_flag\":true,\"related_item_data\":{\"deal_id\":43,\"title\":\"AnhDevTestpersonsproducts3\"},\"person\":{\"id\":22,\"company_id\":4803730,\"owner_id\":{\"id\":7530495,\"name\":\"anhtran\",\"email\":\"anh.tran@mulesoft.com\",\"has_pic\":false,\"pic_hash\":null,\"active_flag\":true,\"value\":7530495},\"org_id\":null,\"name\":\"James GHI\",\"first_name\":\"James\",\"last_name\":\"GHI\",\"open_deals_count\":0,\"related_open_deals_count\":0,\"closed_deals_count\":0,\"related_closed_deals_count\":0,\"participant_open_deals_count\":1,\"participant_closed_deals_count\":0,\"email_messages_count\":0,\"activities_count\":0,\"done_activities_count\":0,\"undone_activities_count\":0,\"reference_activities_count\":0,\"files_count\":0,\"notes_count\":0,\"followers_count\":1,\"won_deals_count\":0,\"related_won_deals_count\":0,\"lost_deals_count\":0,\"related_lost_deals_count\":0,\"active_flag\":true,\"phone\":[{\"label\":\"\",\"value\":\"3453453458\",\"primary\":true}],\"email\":[{\"label\":\"\",\"value\":\"tw@ms.com\",\"primary\":true}],\"first_char\":\"j\",\"update_time\":\"2019-01-29 21:55:49\",\"add_time\":\"2019-01-29 21:55:49\",\"visible_to\":\"3\",\"google_contact_id\":null,\"picture_id\":null,\"sync_needed\":false,\"next_activity_date\":null,\"next_activity_time\":null,\"next_activity_id\":null,\"last_activity_id\":null,\"last_activity_date\":null,\"last_incoming_mail_time\":null,\"last_outgoing_mail_time\":null,\"label\":null,\"org_name\":null,\"owner_name\":\"anhtran\",\"cc_email\":\"agco-mulesoft-sandbox-12a42e@pipedrivemail.com\"},\"added_by_user_id\":{\"id\":7530495,\"name\":\"anhtran\",\"email\":\"anh.tran@mulesoft.com\",\"has_pic\":false,\"pic_hash\":null,\"active_flag\":true,\"value\":7530495},\"related_item_type\":\"deal\",\"related_item_id\":43},{\"id\":22,\"person_id\":{\"name\":\"Katie B\",\"email\":[{\"label\":\"\",\"value\":\"jm@ms.com\",\"primary\":true}],\"phone\":[{\"label\":\"\",\"value\":\"3453453455\",\"primary\":true}],\"value\":23},\"add_time\":\"2019-01-29 21:55:49\",\"active_flag\":true,\"related_item_data\":{\"deal_id\":43,\"title\":\"AnhDevTestpersonsproducts3\"},\"person\":{\"id\":23,\"company_id\":4803730,\"owner_id\":{\"id\":7530495,\"name\":\"anhtran\",\"email\":\"anh.tran@mulesoft.com\",\"has_pic\":false,\"pic_hash\":null,\"active_flag\":true,\"value\":7530495},\"org_id\":null,\"name\":\"Katie B\",\"first_name\":\"Katie\",\"last_name\":\"B\",\"open_deals_count\":0,\"related_open_deals_count\":0,\"closed_deals_count\":0,\"related_closed_deals_count\":0,\"participant_open_deals_count\":1,\"participant_closed_deals_count\":0,\"email_messages_count\":0,\"activities_count\":0,\"done_activities_count\":0,\"undone_activities_count\":0,\"reference_activities_count\":0,\"files_count\":0,\"notes_count\":0,\"followers_count\":1,\"won_deals_count\":0,\"related_won_deals_count\":0,\"lost_deals_count\":0,\"related_lost_deals_count\":0,\"active_flag\":true,\"phone\":[{\"label\":\"\",\"value\":\"3453453455\",\"primary\":true}],\"email\":[{\"label\":\"\",\"value\":\"jm@ms.com\",\"primary\":true}],\"first_char\":\"k\",\"update_time\":\"2019-01-29 21:55:49\",\"add_time\":\"2019-01-29 21:55:49\",\"visible_to\":\"3\",\"google_contact_id\":null,\"picture_id\":null,\"sync_needed\":false,\"next_activity_date\":null,\"next_activity_time\":null,\"next_activity_id\":null,\"last_activity_id\":null,\"last_activity_date\":null,\"last_incoming_mail_time\":null,\"last_outgoing_mail_time\":null,\"label\":null,\"org_name\":null,\"owner_name\":\"anhtran\",\"cc_email\":\"agco-mulesoft-sandbox-12a42e@pipedrivemail.com\"},\"added_by_user_id\":{\"id\":7530495,\"name\":\"anhtran\",\"email\":\"anh.tran@mulesoft.com\",\"has_pic\":false,\"pic_hash\":null,\"active_flag\":true,\"value\":7530495},\"related_item_type\":\"deal\",\"related_item_id\":43}],\"additional_data\":{\"pagination\":{\"start\":0,\"limit\":100,\"more_items_in_collection\":false}},\"related_objects\":{\"user\":{\"7530495\":{\"id\":7530495,\"name\":\"anhtran\",\"email\":\"anh.tran@mulesoft.com\",\"has_pic\":false,\"pic_hash\":null,\"active_flag\":true}},\"person\":{\"22\":{\"id\":22,\"name\":\"James GHI\",\"email\":[{\"label\":\"\",\"value\":\"tw@ms.com\",\"primary\":true}],\"phone\":[{\"label\":\"\",\"value\":\"3453453458\",\"primary\":true}]},\"23\":{\"id\":23,\"name\":\"Katie B\",\"email\":[{\"label\":\"\",\"value\":\"jm@ms.com\",\"primary\":true}],\"phone\":[{\"label\":\"\",\"value\":\"3453453455\",\"primary\":true}]}}}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="getproductspayload" format="json">
+      <types:shape format="weave" example="examples/getproductstoagco-example.json"><![CDATA[%dw 2.0
+type getproductspayload = {|
+  success: Boolean, 
+  data: Array<{|
+    id: Number {"typeId": "int"}, 
+    deal_id: Number {"typeId": "int"}, 
+    order_nr: Number {"typeId": "int"}, 
+    product_id: Number {"typeId": "int"}, 
+    product_variation_id: Null, 
+    item_price: Number {"typeId": "int"}, 
+    discount_percentage: Number {"typeId": "int"}, 
+    duration: Number {"typeId": "int"}, 
+    sum_no_discount: Number {"typeId": "int"}, 
+    sum: Number {"typeId": "int"}, 
+    currency: String, 
+    enabled_flag: Boolean, 
+    add_time: String, 
+    last_edit: Null, 
+    comments: String, 
+    active_flag: Boolean, 
+    name: String, 
+    sum_formatted: String, 
+    quantity_formatted: String, 
+    quantity: Number {"typeId": "int"}
+  |}>, 
+  additional_data: {|
+    products_quantity_total: Number {"typeId": "int"}, 
+    products_sum_total: Number {"typeId": "int"}, 
+    variations_enabled: Boolean, 
+    products_quantity_total_formatted: String, 
+    products_sum_total_formatted: String, 
+    pagination: {|
+      start: Number {"typeId": "int"}, 
+      limit: Number {"typeId": "int"}, 
+      more_items_in_collection: Boolean
+    |}
+  |}
+|} {"MetadataFormat": "json",
+"example": "{\"success\":true,\"data\":[{\"id\":18,\"deal_id\":43,\"order_nr\":1,\"product_id\":1,\"product_variation_id\":null,\"item_price\":85,\"discount_percentage\":0,\"duration\":1,\"sum_no_discount\":0,\"sum\":8500,\"currency\":\"USD\",\"enabled_flag\":true,\"add_time\":\"2019-01-29 21:55:49\",\"last_edit\":null,\"comments\":\"ANHTESTPRODPERSON series challenger\",\"active_flag\":true,\"name\":\"Tractor\",\"sum_formatted\":\"$8,500\",\"quantity_formatted\":\"100\",\"quantity\":100},{\"id\":19,\"deal_id\":43,\"order_nr\":2,\"product_id\":1,\"product_variation_id\":null,\"item_price\":50,\"discount_percentage\":0,\"duration\":1,\"sum_no_discount\":0,\"sum\":100,\"currency\":\"USD\",\"enabled_flag\":true,\"add_time\":\"2019-01-29 21:55:49\",\"last_edit\":null,\"comments\":\"ANHTESTPRODPERSON2 series and challengeme\",\"active_flag\":true,\"name\":\"Tractor\",\"sum_formatted\":\"$100\",\"quantity_formatted\":\"2\",\"quantity\":2}],\"additional_data\":{\"products_quantity_total\":102,\"products_sum_total\":8600,\"variations_enabled\":false,\"products_quantity_total_formatted\":\"102\",\"products_sum_total_formatted\":\"$8,600\",\"pagination\":{\"start\":0,\"limit\":100,\"more_items_in_collection\":false}}}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a56bf522-f93a-4d25-8314-8b386c5712e1">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="addProd"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#87b2692c-2490-45f7-9b5d-2e50c59fc1b9">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="addProd"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#32d84ac5-4a39-4a9b-8aad-5363f1ce6c89">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="webhookpayload"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#dc69e78f-e168-4550-a7c8-eeac1029042f">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="getDeals"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="DealertoAgco"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#f22e6afb-5677-44b1-bd20-8a348f7c2d51">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="getproductspayload"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="DealertoAgco"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#5d41d146-db9b-4dfa-b5ed-b10f916f13a3">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="personpayload"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="DealertoAgco"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

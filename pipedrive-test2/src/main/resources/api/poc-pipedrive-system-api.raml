@@ -1,0 +1,50 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/6813493e-108a-4d7a-a21a-e04162267daa/ # 
+title: POC-pipedrive-system-api
+description: The public API that AGCO dealer's consume for opportunity information
+version: 1.0
+protocols: [HTTP, HTTPS]
+  
+traits:  
+  client-id-required:      
+    headers:   
+      client_id:          
+        type: string       
+      client_secret:          
+        type: string
+# need the user authentication- user id to be provided or oAuth
+# add notes to opporutnity and contacts ex/dt
+uses: 
+  datatypes: exchange_modules/d75556a1-c652-41a7-9685-5fa1e690fca7/agco-dealer-datatype-dt-03jan2018/1.0.8/agco-dealer-datatype.raml
+
+ #uriparam: basepath, api_token,  
+/opportunities:
+  is: [client-id-required]
+              
+  post:
+    #queryParameters:
+     # api_token: string
+    description: AGCO pushes qualified leads to intended dealer systems (CRM or DMS) 
+    body:
+      application/json:
+        type: datatypes.opp_AgcotoDealer 
+    responses:
+              200:
+                body:
+                  application/json:
+                    example: 
+                      message: "Opportunities have been Added"
+/webhook:
+    is: [client-id-required]           
+    post:
+      #queryParameters:
+       # api_token: string
+      description: Leads from pipedrive is posted from webhook into AGCO
+      body:
+        application/json:
+      responses:
+                200:
+                  body:
+                    application/json:
+                      example: 
+                        message: "Opportunities have been Updated"
