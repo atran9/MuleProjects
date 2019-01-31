@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<db:my-sql-connection host="mysql.shared.demos.mulesoft.com" port="3306" user="mule" password="Mule1379" database="anhtran" />
 	</db:config>
 	<flow name="customer360-cicdFlow" doc:id="e9f05cbc-d0f6-4a28-87b5-88a792b9a972" >
-		<http:listener doc:name="Listener" doc:id="289bbf19-ae59-47b5-bee2-2c6682b8c2d6" config-ref="HTTP_Listener_config" path="/boo"/>
+		<http:listener doc:name="call segra MSQL" doc:id="289bbf19-ae59-47b5-bee2-2c6682b8c2d6" config-ref="HTTP_Listener_config" path="/segra"/>
 		<db:select doc:name="Select" doc:id="b7472d24-59b4-4471-9ac3-1d1e09109650" config-ref="Database_Config">
 			<db:sql >select * from anhtran.ECSCLNT1</db:sql>
 		</db:select>
@@ -26,5 +26,10 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="7f99d87a-dcfd-48d1-be5a-d54e267ff756" >
+				<logger level="INFO" doc:name="Logger" doc:id="08dd85e3-60bb-41c3-a2db-aa722ece3450" />
+			</on-error-continue>
+		</error-handler>
 	</flow>
 </mule>
